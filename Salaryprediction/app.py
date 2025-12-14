@@ -1,17 +1,12 @@
 import streamlit as st
-import pandas as pd
 import pickle
 
 st.title("💼 Salary Prediction App")
 
-# Load trained model
-with open("Salaryprediction.pkl", "rb") as file:
-    model = pickle.load(file)
-
+model=pickle.load(open("Salaryprediction.pkl", "rb")) 
 st.subheader("🧑‍💻 Enter Details")
 
-# Example input (change feature names if needed)
-years_experience = st.number_input("Years of Experience", min_value=0.0, value=1.0)
+years = st.number_input("Enter the Years of Experience", min_value=0.0, step=0.1)
 
 # Create DataFrame for prediction
 input_data = pd.DataFrame([[years_experience]], columns=["YearsExperience"])
