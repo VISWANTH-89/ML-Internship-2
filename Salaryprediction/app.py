@@ -1,3 +1,4 @@
+Salary Prediction app.py
 import streamlit as st
 import pandas as pd
 import pickle
@@ -10,5 +11,5 @@ years=st.number_input("Enter Years of Experience",min_value=0.0,step=0.1)
 if st.button("Predict Salary"):
   prediction=model.predict([[years]])
   st.success(f"Predicted Salary: ₹
-{prediction[0]:,.2f}")
+{prediction[0]:}")
 Fixed Streamlit app error
