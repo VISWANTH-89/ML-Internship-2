@@ -1,50 +1,23 @@
 import streamlit as st
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
+import pickle
 
-# App title
 st.title("💼 Salary Prediction App")
 
-# Load dataset from repository
-@st.cache_data
-def load_data():
-    return pd.read_csv("Salary Data.csv")
+# Load trained model
+with open("Salaryprediction.pkl", "rb") as file:
+    model = pickle.load(file)
 
-data = load_data()
+st.subheader("🧑‍💻 Enter Details")
 
-st.subheader("📊 Dataset Preview")
-st.dataframe(data.head())
+# Example input (change feature names if needed)
+years_experience = st.number_input("Years of Experience", min_value=0.0, value=1.0)
 
-# Features and target
-X = data.drop("Salary", axis=1)
-y = data["Salary"]
-
-# Train model
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-st.success("✅ Model trained successfully!")
-
-st.subheader("🧑‍💻 Enter Employee Details")
-
-# User input fields
-user_input = {}
-for col in X.columns:
-    user_input[col] = st.number_input(
-        f"Enter {col}", 
-        value=float(X[col].mean())
-    )
-
-input_df = pd.DataFrame([user_input])
+# Create DataFrame for prediction
+input_data = pd.DataFrame([[years_experience]], columns=["YearsExperience"])
 
 # Predict salary
 if st.button("Predict Salary"):
-    prediction = model.predict(input_df)[0]
+    prediction = model.predict(input_data)[0]
+    st.success(f"💰 Predicted Salary: ₹ {prediction:,.2f}")
 
-    st.subheader("📢 Predicted Salary")
-    st.success(f"₹ {prediction:,.2f}")
