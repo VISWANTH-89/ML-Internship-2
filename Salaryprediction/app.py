@@ -11,3 +11,4 @@ if st.button("Predict Salary"):
   prediction=model.predict([[years]])
   st.success(f"Predicted Salary: ₹
 {prediction[0]:,.2f}")
+Fixed Streamlit app error
