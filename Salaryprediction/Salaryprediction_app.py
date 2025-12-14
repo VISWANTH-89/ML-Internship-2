@@ -3,7 +3,7 @@ import pickle
 
 st.title("💼 Salary Prediction App")
 
-model=pickle.load(open("Salaryprediction.pkl", "rb")) 
+model=pickle.load(open("model.pkl", "rb")) 
 st.subheader("🧑‍💻 Enter Details")
 
 years = st.number_input("Enter the Years of Experience", min_value=0.0, step=0.1)
