@@ -15,9 +15,6 @@ MODEL_PATH = "Decision_tree.pkl"
 try:
     with open(MODEL_PATH, "rb") as f:
         model = pickle.load(f)
-except FileNotFoundError:
-    st.error("Model file not found. Please upload decision_tree.pkl")
-    st.stop()
 
 study_hours = st.number_input("Enter Study Hours", min_value=0.0, step=0.1)
 previous_score = st.number_input("Enter Previous Exam Score", min_value=0.0, step=1.0)
