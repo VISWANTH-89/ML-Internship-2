@@ -9,7 +9,7 @@ st.title("🎓 Student Pass or Fail Prediction")
 st.subheader("Pass or Fail Prediction using Decision Tree with Gamma")
 
 # ✅ Correct file name
-MODEL_PATH = "decision_tree.pkl"
+MODEL_PATH = "Decision_tree.pkl"
 
 # Load model safely
 try:
