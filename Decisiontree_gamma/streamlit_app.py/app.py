@@ -14,12 +14,18 @@ st.title("🎓 Student Pass or Fail Prediction")
 st.subheader("Pass or Fail Prediction using Decision Tree with Gamma")
 
 st.markdown("---")
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "Decision_tree.pkl")
 # ---------------- Load Model ----------------
 MODEL_PATH = "Decision_tree.pkl"   # ✅ updated file name
 
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
+if not os.path.exists(MODEL_PATH):
+    st.error("❌ Model file not found")
+    st.write("Looking for:", MODEL_PATH)
+    st.write("Files in folder:", os.listdir(BASE_DIR))
+    st.stop()
 
 # ---------------- User Input ----------------
 study_hours = st.number_input(
