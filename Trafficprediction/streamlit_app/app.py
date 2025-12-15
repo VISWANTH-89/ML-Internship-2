@@ -14,13 +14,10 @@ total = st.number_input(
     min_value=0,
     step=1
 )
-if st.button("Predict Traffic Situation"):
-    prediction = model.predict([[total]])
-    prediction = int(round(prediction[0]))
+if st.button("Predict"):
+    pred = model.predict([[total]])
+    pred = int(round(pred[0]))
+    pred = np.clip(pred, 0, len(le.classes_) - 1)
 
-    # Keep prediction in valid range
-    prediction = np.clip(prediction, 0, len(le.classes_) - 1)
-
-    result = le.inverse_transform([prediction])[0]
-
+    result = le.inverse_transform([pred])[0]
     st.success(f"🚥 Traffic Situation: **{result}**")
