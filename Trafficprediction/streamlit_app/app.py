@@ -13,10 +13,15 @@ except FileNotFoundError:
     st.error("traffic.pkl file NOT found ❌")
     st.stop()
 
-
-
 st.subheader("🔢 Enter Total Vehicle Count")
+try:
+    df = pd.read_csv("/content/Traffic.csv")
+except:
+    st.error("Traffic.csv not found ❌")
+    st.stop()
 
+le = LabelEncoder()
+le.fit(df["Traffic Situation"])
 total = st.number_input(
     "Total Vehicles",
     min_value=0,
