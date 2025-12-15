@@ -18,5 +18,5 @@ years = st.number_input("Enter the Years of Experience", min_value=0.0, step=0.1
 
 # Predict salary
 if st.button("Predict Salary"):
-    prediction = model.predict(input_data)[0]
+    prediction = model.predict([[years]])[0]
     st.success(f"💰 Predicted Salary: ₹ {prediction:,.2f}")
