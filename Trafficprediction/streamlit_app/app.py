@@ -14,19 +14,6 @@ except FileNotFoundError:
     st.stop()
 
 
-# -----------------------------
-# Load model
-# -----------------------------
-@st.cache_resource
-with open("traffic.pkl", "rb") as file:
-    model = pickle.load(f)
-
-try:
-    model = load_model()
-    st.success("Model loaded successfully ✅")
-except:
-    st.error("traffic.pkl file not found ❌")
-    st.stop()
 
 st.subheader("🔢 Enter Total Vehicle Count")
 
