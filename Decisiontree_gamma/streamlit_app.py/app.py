@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import pickle
-from scipy.special import gamma
+import math
 
 # Page config
 st.set_page_config(page_title="Pass or Fail Prediction", layout="centered")
