@@ -5,13 +5,14 @@ import streamlit as st
 st.write("Current Directory:", os.getcwd())
 st.write("Files in directory:", os.listdir())
 
-try:
-    with open("traffic.pkl", "rb") as f:
-        model = pickle.load(f)
-    st.success("Model loaded successfully ✅")
-except FileNotFoundError:
-    st.error("traffic.pkl file NOT found ❌")
-    st.stop()
+import os, pickle
+
+BASE_DIR = os.path.dirname(__file__)
+MODEL_PATH = os.path.join(BASE_DIR, "traffic.pkl")
+
+with open("trafficprediction.pkl", "rb") as f:
+    model = pickle.load(f)
+
 
 st.subheader("🔢 Enter Total Vehicle Count")
 try:
