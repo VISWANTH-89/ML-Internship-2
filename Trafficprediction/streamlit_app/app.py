@@ -26,8 +26,11 @@ le.fit(df["Traffic Situation"])
 total = st.number_input(
     "Total Vehicles",
     min_value=0,
+    max_value=100,   # 🔹 added limit
     step=1
 )
+total = min(total, 100)
+
 if st.button("Predict"):
     pred = model.predict([[total]])
     pred = int(round(pred[0]))
