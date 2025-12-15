@@ -7,7 +7,10 @@ from sklearn.preprocessing import LabelEncoder
 
 st.set_page_config(page_title="Traffic Prediction", layout="centered")
 st.title("🚦 Traffic Flow Prediction")
-
+st.write(
+    "This application uses **Linear Regression** to predict the "
+    "**Traffic Flow Situation** based on the total number of vehicles."
+)
 BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "traffic.pkl")
 CSV_PATH = os.path.join(BASE_DIR, "Traffic.csv")
