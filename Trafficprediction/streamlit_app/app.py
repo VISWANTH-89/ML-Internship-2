@@ -1,3 +1,4 @@
+import streamlit as st
 import os, pickle
 st.set_page_config(page_title="Traffic Prediction", layout="centered")
 st.title("🚦 Traffic Flow Prediction")
