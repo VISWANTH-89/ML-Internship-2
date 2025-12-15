@@ -1,9 +1,15 @@
 import streamlit as st
 import pickle
+import os
 
-st.title("💼 Salary Prediction App")
+@st.cache_resource
+def load_model():
+    model_path = os.path.join(os.path.dirname(__file__), "Salaryprediction.pkl")
+    with open(model_path, "rb") as file:
+        return pickle.load(file)
 
-model=pickle.load(open("Salaryprediction.pkl", "rb")) 
+model = load_model()
+
 st.subheader("🧑‍💻 Enter Details")
 
 years = st.number_input("Enter the Years of Experience", min_value=0.0, step=0.1)
