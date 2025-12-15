@@ -1,25 +1,25 @@
-import streamlit as st
+import os
 import pickle
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+import streamlit as st
 
-# -----------------------------
-# Page config
-# -----------------------------
-st.set_page_config(page_title="Traffic Flow Prediction", layout="centered")
+st.write("Current Directory:", os.getcwd())
+st.write("Files in directory:", os.listdir())
 
-st.title("🚦 Traffic Flow Prediction")
-st.write("Prediction using trained PKL model")
+try:
+    with open("traffic.pkl", "rb") as f:
+        model = pickle.load(f)
+    st.success("Model loaded successfully ✅")
+except FileNotFoundError:
+    st.error("traffic.pkl file NOT found ❌")
+    st.stop()
+
 
 # -----------------------------
 # Load model
 # -----------------------------
 @st.cache_resource
-def load_model():
-    with open("traffic.pkl", "rb") as f:
-        model = pickle.load(f)
-    return model
+with open("traffic.pkl", "rb") as file:
+    model = pickle.load(f)
 
 try:
     model = load_model()
