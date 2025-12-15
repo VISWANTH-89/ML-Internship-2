@@ -10,7 +10,7 @@ def load_model():
 
 model = load_model()
 
-st.subheader("🧑‍💻 Enter Details")
+st.subheader("🧑‍💻 Salary Prediction")
 
 years = st.number_input("Enter the Years of Experience", min_value=0.0, step=0.1)
 
