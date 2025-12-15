@@ -3,12 +3,21 @@ import numpy as np
 import os, pickle
 st.set_page_config(page_title="Traffic Prediction", layout="centered")
 st.title("🚦 Traffic Flow Prediction")
+
 BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "traffic.pkl")
-
+CSV_PATH = os.path.join(BASE_DIR, "Traffic.csv")
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
+try:
+    df = pd.read_csv(CSV_PATH)
+except Exception as e:
+    st.error("❌ Traffic.csv not found")
+    st.error(e)
+    st.stop()
 
+le = LabelEncoder()
+le.fit(df["Traffic Situation"])
 
 total = st.number_input(
     "Total Vehicles",
