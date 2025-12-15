@@ -3,7 +3,7 @@ import os, pickle
 BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "traffic.pkl")
 
-with open(traffic.pkl, "rb") as f:
+with open("traffic.pkl", "rb") as f:
     model = pickle.load(f)
 st.subheader("Enter Total Vehicle Count")
 
