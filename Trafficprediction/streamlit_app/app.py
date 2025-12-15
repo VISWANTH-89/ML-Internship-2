@@ -1,6 +1,10 @@
 import streamlit as st
+import pickle
 import numpy as np
-import os, pickle
+import pandas as pd
+import os
+from sklearn.preprocessing import LabelEncoder
+
 st.set_page_config(page_title="Traffic Prediction", layout="centered")
 st.title("🚦 Traffic Flow Prediction")
 
