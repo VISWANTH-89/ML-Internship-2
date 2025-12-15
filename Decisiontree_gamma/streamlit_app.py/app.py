@@ -18,11 +18,6 @@ st.markdown("---")
 # ---------------- Load Model ----------------
 MODEL_PATH = "Decision_tree.pkl"   # ✅ updated file name
 
-if not os.path.exists(MODEL_PATH):
-    st.error("❌ Model file not found: Decision_tree.pkl")
-    st.info("Upload Decision_tree.pkl in the same folder as app.py")
-    st.stop()
-
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
 
