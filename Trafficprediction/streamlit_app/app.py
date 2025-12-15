@@ -1,11 +1,12 @@
 import os, pickle
-
+st.set_page_config(page_title="Traffic Prediction", layout="centered")
+st.title("🚦 Traffic Flow Prediction")
 BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "traffic.pkl")
 
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
-st.subheader("Enter Total Vehicle Count")
+
 
 total = st.number_input(
     "Total Vehicles",
