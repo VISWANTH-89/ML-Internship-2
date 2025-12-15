@@ -14,8 +14,7 @@ st.subheader("🧑‍💻 Enter Details")
 
 years = st.number_input("Enter the Years of Experience", min_value=0.0, step=0.1)
 
-# Create DataFrame for prediction
-input_data = pd.DataFrame([[years_experience]], columns=["YearsExperience"])
+
 
 # Predict salary
 if st.button("Predict Salary"):
