@@ -53,7 +53,7 @@ if st.button("Predict"):
     st.warning("Reason: Study Hours ≤ 2 or Previous Exam Score ≤ 200")
 
 
-    else:
+   else:
         # Gamma feature transformation
         study_gamma = math.gamma(study_hours + 1)
         score_gamma = math.gamma(previous_score / 10 + 1)
