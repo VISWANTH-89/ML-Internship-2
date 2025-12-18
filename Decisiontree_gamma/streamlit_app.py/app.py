@@ -29,17 +29,20 @@ if not os.path.exists(MODEL_PATH):
     st.stop()
 
 # ---------------- User Input ----------------
-study_hours = st.number_input(
-    "Enter Study Hours",
+study_gamma = st.number_input(
+    "Enter Study Gamma",
     min_value=0.0,
-    step=0.1
-)
-
-previous_score = st.number_input(
-    "Enter Previous Exam Score",
-    min_value=0.0,
+    max_value=100.0,
     step=1.0
 )
+
+score_gamma = st.number_input(
+    "Enter Score Gamma",
+    min_value=0.0,
+    max_value=100.0,
+    step=1.0
+)
+
 
 # ---------------- Prediction ----------------
 if st.button("Predict"):
