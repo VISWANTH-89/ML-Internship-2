@@ -15,7 +15,7 @@ st.subheader("Pass or Fail Prediction using Decision Tree with Gamma")
 
 st.markdown("---")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "Decision_tree.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "Decisiontree_gamma.pkl")
 # ---------------- Load Model ----------------
 MODEL_PATH = "Decision_tree.pkl"   # ✅ updated file name
 
