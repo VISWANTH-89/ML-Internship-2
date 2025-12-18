@@ -62,9 +62,9 @@ if st.button("Predict"):
 
      
         if prediction[0] == 0:
-            st.error("❌ Prediction: FAIL")
-        else:
             st.success("✅ Prediction: PASS")
+        else:
+            st.error("❌ Prediction: FAIL")
 
 st.markdown("---")
 st.caption("Decision Tree Model | Gamma Function Feature Transformation")
