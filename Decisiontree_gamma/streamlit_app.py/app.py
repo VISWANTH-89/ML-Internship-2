@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "Decisiontree_gamma.pkl")
 
 # ---------------- Load Model ----------------
-MODEL_PATH = "Decisiontree_gamma.pkl"   # ✅ updated file name
+ # ✅ updated file name
 
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
