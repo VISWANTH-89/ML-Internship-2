@@ -30,14 +30,14 @@ if not os.path.exists(MODEL_PATH):
 
 # ---------------- User Input ----------------
 study_gamma = st.number_input(
-    "Enter Study Gamma",
+    "Enter Study Hours",
     min_value=0.0,
     max_value=100.0,
     step=1.0
 )
 
 score_gamma = st.number_input(
-    "Enter Score Gamma",
+    "Enter Previous Exam Score",
     min_value=0.0,
     max_value=100.0,
     step=1.0
@@ -48,9 +48,10 @@ score_gamma = st.number_input(
 if st.button("Predict"):
 
     # Automatic fail rules
-    if study_gamma > 2 or score_gamma > 200:
-        st.error("❌ Prediction: FAIL")
-        st.warning("Reason: Study Hours < 2 or Previous Exam Score < 200")
+   if study_gamma <= 2 or score_gamma <= 200:
+    st.error("❌ Prediction: FAIL")
+    st.warning("Reason: Study Hours ≤ 2 or Previous Exam Score ≤ 200")
+
 
     else:
         # Gamma feature transformation
