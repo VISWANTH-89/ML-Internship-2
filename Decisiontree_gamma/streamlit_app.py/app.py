@@ -48,7 +48,7 @@ score_gamma = st.number_input(
 if st.button("Predict"):
 
     # Automatic fail rules
-    if study_gamma < 2 or score_gamma < 200:
+    if study_gamma > 2 or score_gamma > 200:
         st.error("❌ Prediction: FAIL")
         st.warning("Reason: Study Hours < 2 or Previous Exam Score < 200")
 
