@@ -14,10 +14,11 @@ st.title("🎓 Student Pass or Fail Prediction")
 st.subheader("Pass or Fail Prediction using Decision Tree with Gamma")
 
 st.markdown("---")
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "Decisiontree_gamma.pkl")
+
 # ---------------- Load Model ----------------
-MODEL_PATH = "Decision_tree.pkl"   # ✅ updated file name
+MODEL_PATH = "Decisiontree_gamma.pkl"   # ✅ updated file name
 
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
