@@ -56,7 +56,7 @@ if st.button("Predict"):
    else:
         # Gamma feature transformation
         study_gamma = math.gamma(study_hours + 1)
-        score_gamma = math.gamma(previous_score / 10 + 1)
+        score_gamma = previous_score 
 
         prediction = model.predict([[study_gamma, score_gamma]])
 
