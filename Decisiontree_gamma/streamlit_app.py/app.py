@@ -29,14 +29,14 @@ if not os.path.exists(MODEL_PATH):
     st.stop()
 
 # ---------------- User Input ----------------
-study_gamma = st.number_input(
+study_hours = st.number_input(
     "Enter Study Hours",
     min_value=0.0,
     max_value=20.0,
     step=1.0
 )
 
-score_gamma = st.number_input(
+previous_score = st.number_input(
     "Enter Previous Exam Score",
     min_value=0.0,
     max_value=600.0,
