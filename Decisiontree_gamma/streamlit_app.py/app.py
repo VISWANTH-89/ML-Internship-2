@@ -60,10 +60,11 @@ if st.button("Predict"):
 
         prediction = model.predict([[study_gamma, score_gamma]])
 
-        if prediction[0] == 1:
-            st.success("✅ Prediction: PASS")
-        else:
+     
+        if prediction[0] == 0:
             st.error("❌ Prediction: FAIL")
+            else:
+                st.success("✅ Prediction: PASS")
 
 st.markdown("---")
 st.caption("Decision Tree Model | Gamma Function Feature Transformation")
