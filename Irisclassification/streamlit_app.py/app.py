@@ -1,106 +1,68 @@
 import streamlit as st
-import seaborn as sns
-import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
+import pickle
+import numpy as np
+import os
 
-# ==============================
-# PAGE CONFIG
-# ==============================
-st.set_page_config(
-    page_title="Iris Flower Prediction",
-    page_icon="🌸",
-    layout="centered"
-)
+# -----------------------------
+# Load model safely
+# -----------------------------
+@st.cache_resource
+def load_model():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(base_dir, "iris_classification.pkl")
 
-st.title("🌸 Iris Flower Classification App")
-st.write("Predict the **Iris flower species** using a **Decision Tree model**.")
+    with open(model_path, "rb") as file:
+        obj = pickle.load(file)
 
-# ==============================
-# LOAD DATA
-# ==============================
-@st.cache_data
-def load_data():
-    df = sns.load_dataset("iris")
-    return df
+    # Handle (model, scaler) or model-only
+    if isinstance(obj, tuple):
+        model = obj[0]
+        scaler = obj[1] if len(obj) > 1 else None
+    else:
+        model = obj
+        scaler = None
 
-df = load_data()
+    return model, scaler
 
-# ==============================
-# MODEL TRAINING
-# ==============================
-X = df[["sepal_length", "sepal_width", "petal_length", "petal_width"]]
-y = df["species"]
 
-model = DecisionTreeClassifier(max_depth=4, random_state=42)
-model.fit(X, y)
+# ✅ DEFINE model and scaler HERE
+model, scaler = load_model()
 
-# ==============================
-# SIDEBAR INPUTS
-# ==============================
-st.sidebar.header("🔢 Input Flower Measurements")
+# -----------------------------
+# UI
+# -----------------------------
+st.title("Iris Flower Prediction 🌸")
 
-sepal_length = st.sidebar.slider(
-    "Sepal Length (cm)",
-    float(X.sepal_length.min()),
-    float(X.sepal_length.max()),
-    float(X.sepal_length.mean())
-)
+sepal_length = st.number_input("Sepal Length (cm)", min_value=0.0)
+sepal_width  = st.number_input("Sepal Width (cm)", min_value=0.0)
+petal_length = st.number_input("Petal Length (cm)", min_value=0.0)
+petal_width  = st.number_input("Petal Width (cm)", min_value=0.0)
 
-sepal_width = st.sidebar.slider(
-    "Sepal Width (cm)",
-    float(X.sepal_width.min()),
-    float(X.sepal_width.max()),
-    float(X.sepal_width.mean())
-)
+# -----------------------------
+# Prediction
+# -----------------------------
+if st.button("Predict"):
+    try:
+        input_data = np.array([[
+            sepal_length,
+            sepal_width,
+            petal_length,
+            petal_width
+        ]])
 
-petal_length = st.sidebar.slider(
-    "Petal Length (cm)",
-    float(X.petal_length.min()),
-    float(X.petal_length.max()),
-    float(X.petal_length.mean())
-)
+        # Apply scaler ONLY if it exists
+        if scaler is not None:
+            input_data = scaler.transform(input_data)
 
-petal_width = st.sidebar.slider(
-    "Petal Width (cm)",
-    float(X.petal_width.min()),
-    float(X.petal_width.max()),
-    float(X.petal_width.mean())
-)
+        prediction = model.predict(input_data)[0]
 
-# ==============================
-# PREDICTION
-# ==============================
-input_data = pd.DataFrame(
-    [[sepal_length, sepal_width, petal_length, petal_width]],
-    columns=X.columns
-)
+        class_names = {
+            0: "Setosa",
+            1: "Versicolor",
+            2: "Virginica"
+        }
 
-prediction = model.predict(input_data)
-prediction_proba = model.predict_proba(input_data)
+        st.success(f"🌸 Predicted Flower: **{class_names.get(prediction, prediction)}**")
 
-# ==============================
-# OUTPUT
-# ==============================
-st.subheader("🔍 Prediction Result")
-
-st.success(f"🌼 Predicted Species: **{prediction[0]}**")
-
-st.subheader("📊 Prediction Probability")
-st.bar_chart(
-    pd.DataFrame(
-        prediction_proba,
-        columns=model.classes_
-    ).T
-)
-
-# ==============================
-# SHOW DATASET
-# ==============================
-with st.expander("📁 View Iris Dataset"):
-    st.dataframe(df)
-
-# ==============================
-# FOOTER
-# ==============================
-st.markdown("---")
-st.markdown("**Machine Learning Project | Decision Tree | Iris Dataset**")
+    except Exception as e:
+        st.error(f"Prediction error: {e}")
