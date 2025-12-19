@@ -1,89 +1,91 @@
+import os
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.cluster import AgglomerativeClustering
 import joblib
-# -------------------------------
-# App Title
-# -------------------------------
-st.title("Customer Segmentation App")
+import matplotlib.pyplot as plt
 
-# -------------------------------
-# Load Dataset
-# -------------------------------
-df = pd.read_csv("/content/Mall_Customers.csv")
-le = joblib.load("label_encoder.pkl")
-scaler = joblib.load("scaler.pkl")
-hc = joblib.load("hierarchical_cluster.pkl")
+st.set_page_config(page_title="Mall Customer Segmentation")
 
-# -------------------------------
-# User Input Section
-# -------------------------------
-st.header("Enter New Customer Details")
+st.title("🛍️ Mall Customer Segmentation")
+st.write("Hierarchical Clustering – Customer Groups")
 
-gender = st.selectbox("Gender", ["Male", "Female"])
-age = st.number_input("Age", min_value=1, max_value=100, value=30)
-income = st.number_input("Annual Income (k$)", min_value=1, max_value=200, value=50)
-spending = st.number_input("Spending Score (1-100)", min_value=1, max_value=100, value=50)
+# Load model
+BASE_DIR = os.path.dirname(__file__)
+MODEL_PATH = os.path.join(BASE_DIR, "hierarchical_clustering_model.pkl")
+model = joblib.load(MODEL_PATH)
 
-if st.button("Predict Cluster"):
+# Cluster meaning
+cluster_names = {
+    0: "High Income – High Spending Customers 💎",
+    1: "Low Income – Low Spending Customers 🪙",
+    2: "High Income – Low Spending Customers 💼",
+    3: "Low Income – High Spending Customers 🎯"
+}
 
-    # -------------------------------
+# Upload CSV
+uploaded_file = st.file_uploader("Upload Mall Customers CSV", type=["csv"])
+
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+
+    st.subheader("📄 Dataset Preview")
+    st.dataframe(df.head())
+
     # Preprocessing
-    # -------------------------------
-    df_model = df.drop("CustomerID", axis=1)
-
-    # Encode Gender
-    le = LabelEncoder()
-    df_model["Genre"] = le.fit_transform(df_model["Genre"])
-
-    # Convert user input
-    user_gender = 1 if gender == "Male" else 0
-    new_customer = pd.DataFrame([[user_gender, age, income, spending]],
-        columns=df_model.columns
+    df_clean = df.drop(
+        columns=["CustomerID", "Genre", "Gender"],
+        errors="ignore"
     )
 
-    # Combine old + new data
-    final_data = pd.concat([df_model, new_customer], ignore_index=True)
+    X = df_clean.select_dtypes(include=["int64", "float64"])
 
-    # Scaling
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(final_data)
+    # Clustering
+    clusters = model.fit_predict(X)
+    df_clean["Cluster"] = clusters
+    df_clean["Customer Type"] = df_clean["Cluster"].map(cluster_names)
 
-    # -------------------------------
-    # Hierarchical Clustering
-    # -------------------------------
-    hc = AgglomerativeClustering(n_clusters=5, linkage="ward")
-    labels = hc.fit_predict(X_scaled)
+    st.subheader("📊 Clustered Customers")
+    st.dataframe(df_clean.head())
 
-    final_data["Cluster"] = labels
-
-    # Get cluster of new customer
-    new_customer_cluster = final_data.iloc[-1]["Cluster"]
-
-    st.success(f"New Customer belongs to Cluster: {new_customer_cluster}")
-
-    # -------------------------------
     # Visualization
-    # -------------------------------
-    st.subheader("Cluster Visualization")
+    st.subheader("📈 Cluster Visualization")
 
     fig, ax = plt.subplots()
     ax.scatter(
-        final_data["Annual Income (k$)"],
-        final_data["Spending Score (1-100)"],
-        c=final_data["Cluster"]
+        df_clean["Annual Income (k$)"],
+        df_clean["Spending Score (1-100)"],
+        c=df_clean["Cluster"]
     )
-
-    # Highlight new customer
-    ax.scatter(
-        income, spending,
-        s=200, marker="X"
-    )
-
     ax.set_xlabel("Annual Income (k$)")
-    ax.set_ylabel("Spending Score")
-    ax.set_title("Customer Segmentation")
-
+    ax.set_ylabel("Spending Score (1-100)")
     st.pyplot(fig)
+
+    # -------- USER INPUT ----------
+    st.subheader("🔍 Customer Segmentation (Manual Input)")
+
+    age = st.number_input("Age", 18, 100, 30)
+    income = st.number_input("Annual Income (k$)", 10, 200, 50)
+    score = st.number_input("Spending Score (1-100)", 1, 100, 50)
+
+    if st.button("Find Customer Type"):
+        new_customer = pd.DataFrame(
+            [[age, income, score]],
+            columns=[
+                "Age",
+                "Annual Income (k$)",
+                "Spending Score (1-100)"
+            ]
+        )
+
+        temp_data = pd.concat([X, new_customer], ignore_index=True)
+        temp_clusters = model.fit_predict(temp_data)
+
+        cluster_id = temp_clusters[-1]
+        customer_type = cluster_names.get(
+            cluster_id, "Unknown Customer Group"
+        )
+
+        st.success(f"🟢 Customer Type: {customer_type}")
+
+else:
+    st.info("Please upload the Mall Customers CSV file.")
