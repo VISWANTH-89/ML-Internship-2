@@ -9,7 +9,7 @@ import os
 @st.cache_resource
 def load_model():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    model_path = os.path.join(base_dir, "svm_iris_model.pkl")
+    model_path = os.path.join(base_dir, ".pkl")
 
     with open(model_path, "rb") as file:
         obj = pickle.load(file)
