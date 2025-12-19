@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.cluster import AgglomerativeClustering
-
+import joblib
 # -------------------------------
 # App Title
 # -------------------------------
@@ -12,7 +12,10 @@ st.title("Customer Segmentation App")
 # -------------------------------
 # Load Dataset
 # -------------------------------
-df = pd.read_csv("Mall_Customers.csv")
+df = pd.read_csv("/content/Mall_Customers.csv")
+le = joblib.load("label_encoder.pkl")
+scaler = joblib.load("scaler.pkl")
+hc = joblib.load("hierarchical_cluster.pkl")
 
 # -------------------------------
 # User Input Section
