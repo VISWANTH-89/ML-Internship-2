@@ -32,6 +32,14 @@ if not os.path.exists(PKL_PATH):
 else:
     with open(PKL_PATH, "rb") as f:
         model = pickle.load(f)
+{
+    "emotions": {
+        "happy": "happy.mp3",
+        "sad": "sad.mp3",
+        "calm": "calm.mp3",
+        "energetic": "energetic.mp3"
+    }
+}
 
 emotions = list(model["emotions"].keys())
 
