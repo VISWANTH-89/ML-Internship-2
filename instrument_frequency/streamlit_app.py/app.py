@@ -14,9 +14,15 @@ st.title("🎵 Music Instrument Detection & Frequency Visualizer")
 
 # -------------------------------
 # Load PKL Model
-# -------------------------------
-with open("instrument_frequency_model.pkl", "rb") as f:
+import os
+import pickle
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PKL_PATH = os.path.join(BASE_DIR, "instrument_frequency_model.pkl")
+
+with open(PKL_PATH, "rb") as f:
     model = pickle.load(f)
+
 
 instrument_ranges = model["instruments"]
 
