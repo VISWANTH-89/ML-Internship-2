@@ -34,6 +34,7 @@ audio_file = st.file_uploader(
     type=["wav", "mp3"]
 )
 # FFT Parameters
+# FFT Parameters
 frame_size = 2048
 hop_length = 512
 
@@ -41,7 +42,6 @@ fig, ax = plt.subplots()
 plot_area = st.pyplot(fig)
 
 for i in range(0, len(y) - frame_size, hop_length):
-
     frame = y[i:i + frame_size]
 
     fft = np.abs(np.fft.rfft(frame))
